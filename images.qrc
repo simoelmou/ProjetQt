@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>img/patient-robe.png</file>
+        <file>img/stethoscope.png</file>
+        <file>img/polytech_logo.png</file>
+    </qresource>
+</RCC>

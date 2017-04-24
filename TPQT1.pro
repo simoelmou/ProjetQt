@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     ajoutpersonneldialog.cpp \
     aboutdialog.cpp \
     patient.cpp \
-    patienttablemodel.cpp
+    patienttablemodel.cpp \
+    personneltreemodel.cpp
 
 HEADERS  += mainwindow.h \
     logindialog.h \
@@ -38,7 +39,8 @@ HEADERS  += mainwindow.h \
     ajoutpersonneldialog.h \
     aboutdialog.h \
     patient.h \
-    patienttablemodel.h
+    patienttablemodel.h \
+    personneltreemodel.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \

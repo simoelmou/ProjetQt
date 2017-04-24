@@ -1,13 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
-#include <QStandardItemModel>
+#include "personneltreemodel.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     //Personnel tree view
-
+    PersonnelTreeModel *treeModel = new PersonnelTreeModel(this);
+    ui->personnelTreeView->setModel(treeModel);
 
     //Populating patient table view
     QList<Patient> patients;
@@ -65,6 +65,7 @@ void MainWindow::on_rechercherPatientButton_clicked()
     QString date = ui->dateRechercherEdit->text();
     QString numeroId = ui->numeroRechercherEdit->text();
     //TODO: Search for a patient in the database and repopulate the table model
+
 }
 
 void MainWindow::edit_cell_slot(const QModelIndex &index)

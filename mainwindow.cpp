@@ -1,10 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "personneltreemodel.h"
+#include "c_init_bd.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
+    C_INIT_BD::Creation_BD();
+
     //Personnel tree view
     PersonnelTreeModel *treeModel = new PersonnelTreeModel(this);
     ui->personnelTreeView->setModel(treeModel);
@@ -62,7 +66,7 @@ void MainWindow::on_rechercherPatientButton_clicked()
 {
     QString nom = ui->nomRechercherEdit->text();
     QString prenom = ui->prenomRechercherEdit->text();
-    QString date = ui->dateRechercherEdit->text();
+    QString date = ui->dateDebutRechercherEdit->text();
     QString numeroId = ui->numeroRechercherEdit->text();
     //TODO: Search for a patient in the database and repopulate the table model
 

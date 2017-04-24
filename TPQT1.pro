@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui \
+            sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,7 +32,11 @@ SOURCES += main.cpp\
     aboutdialog.cpp \
     patient.cpp \
     patienttablemodel.cpp \
-    personneltreemodel.cpp
+    personneltreemodel.cpp \
+    c_init_bd.cpp \
+    ressource.cpp \
+    compte.cpp \
+    consultation.cpp
 
 HEADERS  += mainwindow.h \
     logindialog.h \
@@ -40,7 +45,11 @@ HEADERS  += mainwindow.h \
     aboutdialog.h \
     patient.h \
     patienttablemodel.h \
-    personneltreemodel.h
+    personneltreemodel.h \
+    c_init_bd.h \
+    ressource.h \
+    compte.h \
+    consultation.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \

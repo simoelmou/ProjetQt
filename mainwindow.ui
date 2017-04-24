@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>787</width>
-    <height>468</height>
+    <width>897</width>
+    <height>582</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -31,12 +31,12 @@
      <rect>
       <x>-4</x>
       <y>-1</y>
-      <width>801</width>
-      <height>401</height>
+      <width>901</width>
+      <height>511</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -58,9 +58,9 @@
      <widget class="QLineEdit" name="prenomRechercherEdit">
       <property name="geometry">
        <rect>
-        <x>170</x>
+        <x>180</x>
         <y>10</y>
-        <width>161</width>
+        <width>151</width>
         <height>20</height>
        </rect>
       </property>
@@ -68,22 +68,38 @@
        <string>Prenom</string>
       </property>
      </widget>
-     <widget class="QDateEdit" name="dateRechercherEdit">
+     <widget class="QDateEdit" name="dateFinRechercherEdit">
       <property name="geometry">
        <rect>
-        <x>350</x>
+        <x>500</x>
         <y>10</y>
         <width>110</width>
         <height>22</height>
        </rect>
       </property>
+      <property name="specialValueText">
+       <string/>
+      </property>
+      <property name="dateTime">
+       <datetime>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <year>1900</year>
+        <month>1</month>
+        <day>1</day>
+       </datetime>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QLineEdit" name="numeroRechercherEdit">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>640</x>
         <y>10</y>
-        <width>171</width>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
@@ -94,11 +110,17 @@
      <widget class="QPushButton" name="rechercherPatientButton">
       <property name="geometry">
        <rect>
-        <x>660</x>
+        <x>770</x>
         <y>10</y>
         <width>121</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <property name="text">
        <string>Rechercher</string>
@@ -109,8 +131,8 @@
        <rect>
         <x>10</x>
         <y>40</y>
-        <width>771</width>
-        <height>331</height>
+        <width>881</width>
+        <height>441</height>
        </rect>
       </property>
       <property name="wordWrap">
@@ -131,6 +153,84 @@
       <attribute name="horizontalHeaderStretchLastSection">
        <bool>true</bool>
       </attribute>
+     </widget>
+     <widget class="QCheckBox" name="enableNomCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>10</y>
+        <width>16</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="enablePrenomCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>10</y>
+        <width>16</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="enableDateFinCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>10</y>
+        <width>16</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="enableNumeroCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>750</x>
+        <y>10</y>
+        <width>16</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QDateEdit" name="dateDebutRechercherEdit">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>10</y>
+        <width>110</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="enableDateDebutCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>10</y>
+        <width>16</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
@@ -155,7 +255,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>787</width>
+     <width>897</width>
      <height>21</height>
     </rect>
    </property>
@@ -196,7 +296,17 @@
    <addaction name="actionToolbarAjouter_patient"/>
    <addaction name="actionToolbarAjouter_personnel_de_soins"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="sizeGripEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
   <action name="actionPatient">
    <property name="text">
     <string>Patient</string>

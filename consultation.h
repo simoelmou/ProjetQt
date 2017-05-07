@@ -1,10 +1,6 @@
 #ifndef CONSULTATION_H
 #define CONSULTATION_H
 
-#include <iostream>
-
-using namespace std;
-
 class Consultation
 {
 public:

@@ -3,7 +3,7 @@
 Ressource::Ressource()
 {}
 
-Ressource::Ressource(int id, string nom, string prenom, string type)
+Ressource::Ressource(int id, QString nom, QString prenom, int type)
 {
     setId(id);
     setNom(nom);
@@ -21,32 +21,32 @@ void Ressource::setId(int value)
     id = value;
 }
 
-string Ressource::getNom() const
+QString Ressource::getNom() const
 {
     return nom;
 }
 
-void Ressource::setNom(const string &value)
+void Ressource::setNom(const QString &value)
 {
     nom = value;
 }
 
-string Ressource::getPrenom() const
+QString Ressource::getPrenom() const
 {
     return prenom;
 }
 
-void Ressource::setPrenom(const string &value)
+void Ressource::setPrenom(const QString &value)
 {
     prenom = value;
 }
 
-string Ressource::getType() const
+int Ressource::getType() const
 {
     return type;
 }
 
-void Ressource::setType(const string &value)
+void Ressource::setType(int value)
 {
     type = value;
 }

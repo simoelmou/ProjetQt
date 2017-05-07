@@ -5,15 +5,15 @@
 #include <QDebug>
 #include <QFile>
 
-
 C_INIT_BD::C_INIT_BD()
 {
+
 }
 
-bool C_INIT_BD::Creation_BD()
+bool C_INIT_BD::Creation_BD(void)
 {
     bool b_test;
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "connection-name");
 
     if(db.isValid())
     {
@@ -31,35 +31,35 @@ bool C_INIT_BD::Creation_BD()
         if(!db.isOpen())
         {
             qDebug() << db.lastError().text();
-            qDebug() << "Erreur à louverture de la base !\n";
+            qDebug() << "Erreur Ã  louverture de la base !\n";
             return false;
         }
 
         b_test=query.exec("create table TCompte "
-                          "(Id integer primary key, "
+                          "(Id integer primary key AUTOINCREMENT, "
                           "IdRessource integer, "
                           "Login varchar(50), "
                           "MdP varchar(50))");
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Table TCompte non crée !\n";
+            qDebug() << "Table TCompte non crÃ©e !\n";
             return false;
         }
 
         b_test=query.exec("create table TConsult "
-                          "(Id integer primary key, "
+                          "(Id integer primary key AUTOINCREMENT, "
                           "IdPatient integer, "
                           "IdRessource integer)");
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Table TConsult non crée !\n";
+            qDebug() << "Table TConsult non crÃ©e !\n";
             return false;
         }
 
         b_test=query.exec("create table TPatient "
-                          "(Id integer primary key, "
+                          "(Id integer primary key AUTOINCREMENT, "
                           "Nom varchar(50), "
                           "Prenom varchar(50), "
                           "Adresse varchar(50), "
@@ -73,29 +73,29 @@ bool C_INIT_BD::Creation_BD()
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Table TPatient non crée !\n";
+            qDebug() << "Table TPatient non crÃ©e !\n";
             return false;
         }
 
         b_test=query.exec("create table TRessource "
-                          "(Id integer primary key, "
+                          "(Id integer primary key AUTOINCREMENT, "
                           "Nom varchar(50), "
                           "Prenom varchar(50), "
                           "IdType integer)");
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Table TRessource non crée !\n";
+            qDebug() << "Table TRessource non crÃ©e !\n";
             return false;
         }
 
         b_test=query.exec("create table TType "
-                          "(Id integer primary key, "
+                          "(Id integer primary key AUTOINCREMENT, "
                           "Label varchar(50))");
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Table TType non crée !\n";
+            qDebug() << "Table TType non crÃ©e !\n";
             return false;
         }
 
@@ -104,7 +104,7 @@ bool C_INIT_BD::Creation_BD()
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Insertion de données dans TCompte impossible !\n";
+            qDebug() << "Insertion de donnÃ©es dans TCompte impossible !\n";
             return false;
         }
 
@@ -122,22 +122,22 @@ bool C_INIT_BD::Creation_BD()
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Insertion de données dans TConsult impossible !\n";
+            qDebug() << "Insertion de donnÃ©es dans TConsult impossible !\n";
             return false;
         }
 
 
         b_test=query.exec("INSERT INTO TPatient "
-                          "SELECT '1' AS 'Id', 'Ricardo' AS 'Nom', 'Jacques' AS 'Prenom', '3 rue des justices' AS 'Adresse', 'Tours' AS 'Ville', '37200' AS 'CP', 'Dépressif' AS 'Commentaire', '247558963' AS 'Commentaire', '2013-06-01' AS 'DateConsultation', '90' AS 'DureeConsultation', '2' AS 'Priorite'"
-                                  "UNION SELECT 2, 'Pirouette', 'Stéphanie', '15 rue des dames', 'Chanceaux', 37390, 'Rien à dire.', 247542942, '2013-06-01', 50, 2 "
-                                  "UNION SELECT 3, 'Puisser', 'Albert', '15 rue des chevaux', 'Verigné', 37250, 'Asthmatique.', 247642892, '2013-06-01', 45, 3 "
-                                  "UNION SELECT 4, 'Tujais', 'Téo', '15 rue de l''arbre', 'Monts', 37450, '', 247845889, '2013-06-01', 20, 4 "
+                          "SELECT '1' AS 'Id', 'Ricardo' AS 'Nom', 'Jacques' AS 'Prenom', '3 rue des justices' AS 'Adresse', 'Tours' AS 'Ville', '37200' AS 'CP', 'DÃ©pressif' AS 'Commentaire', '247558963' AS 'Commentaire', '2013-06-01' AS 'DateConsultation', '90' AS 'DureeConsultation', '2' AS 'Priorite'"
+                                  "UNION SELECT 2, 'Pirouette', 'StÃ©phanie', '15 rue des dames', 'Chanceaux', 37390, 'Rien Ã  dire.', 247542942, '2013-06-01', 50, 2 "
+                                  "UNION SELECT 3, 'Puisser', 'Albert', '15 rue des chevaux', 'VerignÃ©', 37250, 'Asthmatique.', 247642892, '2013-06-01', 45, 3 "
+                                  "UNION SELECT 4, 'Tujais', 'TÃ©o', '15 rue de l''arbre', 'Monts', 37450, '', 247845889, '2013-06-01', 20, 4 "
                                   "UNION SELECT 5, 'Kistran', 'Flavien', '89 impasse des rangs', 'Mettray', 37620, 'En forme.', 247895623, '2013-06-01', 80, 1 "
                                   "UNION SELECT 6, 'Qing', 'Xue', '14 rue Jean Jaures', 'Tours', 37200, 'Aucun.', 247555588, '2013-06-01', 60, 3 ");
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Insertion de données dans TPatient impossible !\n";
+            qDebug() << "Insertion de donnÃ©es dans TPatient impossible !\n";
             return false;
         }
 
@@ -146,9 +146,9 @@ bool C_INIT_BD::Creation_BD()
                                   "UNION SELECT 2, 'Dubois', 'Jean', 1 "
                                   "UNION SELECT 3, 'De La Roche', 'Julie', 1 "
                                   "UNION SELECT 4, 'Ducroix', 'Lisa', 2 "
-                                  "UNION SELECT 5, 'Boulanger', 'Stéphane', 3 "
+                                  "UNION SELECT 5, 'Boulanger', 'StÃ©phane', 3 "
                                   "UNION SELECT 6, 'Bijet', 'Paul', 3 "
-                                  "UNION SELECT 7, 'durant', 'Mélanie', 4 "
+                                  "UNION SELECT 7, 'durant', 'MÃ©lanie', 4 "
                                   "UNION SELECT 8, 'Tortue', 'Adeline', 4 "
                                   "UNION SELECT 9, 'guillet', 'Sonia', 4 "
                                   "UNION SELECT 10, 'Boulot', 'Marie', 4 "
@@ -157,34 +157,34 @@ bool C_INIT_BD::Creation_BD()
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Insertion de données dans TRessource impossible !\n";
+            qDebug() << "Insertion de donnÃ©es dans TRessource impossible !\n";
             return false;
         }
 
         b_test=query.exec("INSERT INTO TType "
-                          "SELECT '1' AS 'Id', 'Médecin A' AS 'Label'"
-                                  "UNION SELECT 2, 'Médecin B' "
+                          "SELECT '1' AS 'Id', 'MÃ©decin A' AS 'Label'"
+                                  "UNION SELECT 2, 'MÃ©decin B' "
                                   "UNION SELECT 3, 'Radiologue' "
-                                  "UNION SELECT 4, 'Infirmière' "
-                                  "UNION SELECT 5, 'Kinésithérapeute' "
+                                  "UNION SELECT 4, 'InfirmiÃ¨re' "
+                                  "UNION SELECT 5, 'KinÃ©sithÃ©rapeute' "
                                   "UNION SELECT 6, 'Psychologue' "
                                   "UNION SELECT 7, 'Informaticien'");
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Insertion de données dans TType impossible !\n";
+            qDebug() << "Insertion de donnÃ©es dans TType impossible !\n";
             return false;
         }
 
-        db.close();
-        db.removeDatabase("QSQLITE");
+//        db.close();
+//        db.removeDatabase("QSQLITE");
         return true;
 
     }
     else
     {
         qDebug() << db.lastError().text();
-        qDebug() << "Erreur à création de la base !\n";
+        qDebug() << "Erreur Ã  crÃ©ation de la base !\n";
         return false;
     }
 }

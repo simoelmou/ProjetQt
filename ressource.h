@@ -1,33 +1,31 @@
 #ifndef RESSOURCE_H
 #define RESSOURCE_H
 
-#include <iostream>
-
-using namespace std;
+#include <QString>
 
 class Ressource
 {
 public:
     Ressource();
-    Ressource(int id, string nom, string prenom, string type);
+    Ressource(int id, QString nom, QString prenom, int type);
 
     int getId() const;
     void setId(int value);
 
-    string getNom() const;
-    void setNom(const string &value);
+    QString getNom() const;
+    void setNom(const QString &value);
 
-    string getPrenom() const;
-    void setPrenom(const string &value);
+    QString getPrenom() const;
+    void setPrenom(const QString &value);
 
-    string getType() const;
-    void setType(const string &value);
+    int getType() const;
+    void setType(int value);
 
 private:
     int id;
-    string nom;
-    string prenom;
-    string type;
+    QString nom;
+    QString prenom;
+    int type;
 };
 
 #endif // RESSOURCE_H

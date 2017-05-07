@@ -1,56 +1,51 @@
 #include "patient.h"
 
-void Patient::setResources(const vector<int> &value)
-{
-    resources = value;
-}
-
-string Patient::getNom() const
+QString Patient::getNom() const
 {
     return nom;
 }
 
-void Patient::setNom(const string &value)
+void Patient::setNom(const QString &value)
 {
     nom = value;
 }
 
-string Patient::getPrenom() const
+QString Patient::getPrenom() const
 {
     return prenom;
 }
 
-void Patient::setPrenom(const string &value)
+void Patient::setPrenom(const QString &value)
 {
     prenom = value;
 }
 
-string Patient::getAdresse() const
+QString Patient::getAdresse() const
 {
     return adresse;
 }
 
-void Patient::setAdresse(const string &value)
+void Patient::setAdresse(const QString &value)
 {
     adresse = value;
 }
 
-string Patient::getVille() const
+QString Patient::getVille() const
 {
     return ville;
 }
 
-void Patient::setVille(const string &value)
+void Patient::setVille(const QString &value)
 {
     ville = value;
 }
 
-string Patient::getCommentaires() const
+QString Patient::getCommentaires() const
 {
     return commentaires;
 }
 
-void Patient::setCommentaires(const string &value)
+void Patient::setCommentaires(const QString &value)
 {
     commentaires = value;
 }
@@ -95,17 +90,33 @@ void Patient::setPriorite(int value)
     priorite = value;
 }
 
-vector<int> Patient::getResources() const
+QDate Patient::getDateConsultation() const
 {
-    return resources;
+    return dateConsultation;
+}
+
+void Patient::setDateConsultation(const QDate &value)
+{
+    dateConsultation = value;
+}
+
+int Patient::getId() const
+{
+    return id;
+}
+
+void Patient::setId(int value)
+{
+    id = value;
 }
 
 Patient::Patient()
-{
+{}
 
-}
+Patient::Patient(int id, QString nom, QString prenom, QString adresse, QString ville,
+                 QString commentaires, int tel, int code, QDate date, int duree, int priorite) {
 
-Patient::Patient(string nom, string prenom, string adresse, string ville, string commentaires, int tel, int code, int duree, int priorite) {
+    (*this).id = id;
     (*this).nom = nom;
     (*this).prenom = prenom;
     (*this).adresse = adresse;
@@ -113,10 +124,7 @@ Patient::Patient(string nom, string prenom, string adresse, string ville, string
     (*this).commentaires = commentaires;
     (*this).telephone = tel;
     (*this).codePostal = code;
+    (*this).dateConsultation = date;
     (*this).dureeConsultation = duree;
     (*this).priorite = priorite;
-}
-
-void Patient::addResource(int n){
-    resources.push_back(n);
 }

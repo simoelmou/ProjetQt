@@ -2,11 +2,16 @@
 #include "ui_mainwindow.h"
 #include "personneltreemodel.h"
 #include "c_init_bd.h"
+#include "dbmanager.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
+
+    //connection des bouttons de modification et suppression de patients dans table view
+    connect(ui->patientsTableView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(edit_cell_slot(const QModelIndex&)));
+
     C_INIT_BD::Creation_BD();
 
     //Personnel tree view
@@ -14,12 +19,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->personnelTreeView->setModel(treeModel);
 
     //Populating patient table view
-    QList<Patient> patients;
-    model = new PatientTableModel(patients, this);
+    model = new PatientTableModel(this);
     ui->patientsTableView->setModel(model);
 
-    //connection des bouttons de modification et suppression de patients dans table view
-    connect(ui->patientsTableView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(edit_cell_slot(const QModelIndex&)));
 }
 
 MainWindow::~MainWindow()

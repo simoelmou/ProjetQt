@@ -4,10 +4,10 @@
 
 class C_INIT_BD
 {
-    private:
-        C_INIT_BD();
-    public:
-        static bool Creation_BD(void);
+public:
+    C_INIT_BD();
+
+    static bool Creation_BD(void);
 };
 
 #endif // C_INIT_BD_H

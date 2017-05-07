@@ -33,10 +33,12 @@ SOURCES += main.cpp\
     patient.cpp \
     patienttablemodel.cpp \
     personneltreemodel.cpp \
-    c_init_bd.cpp \
     ressource.cpp \
     compte.cpp \
-    consultation.cpp
+    consultation.cpp \
+    dbmanager.cpp \
+    c_init_bd.cpp \
+    type.cpp
 
 HEADERS  += mainwindow.h \
     logindialog.h \
@@ -46,10 +48,12 @@ HEADERS  += mainwindow.h \
     patient.h \
     patienttablemodel.h \
     personneltreemodel.h \
-    c_init_bd.h \
     ressource.h \
     compte.h \
-    consultation.h
+    consultation.h \
+    dbmanager.h \
+    c_init_bd.h \
+    type.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \

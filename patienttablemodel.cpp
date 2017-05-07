@@ -1,10 +1,16 @@
 #include "patienttablemodel.h"
 #include <QPushButton>
 
-PatientTableModel::PatientTableModel(const QList<Patient>& patients, QObject *parent)
+PatientTableModel::PatientTableModel(const QList<Patient*>& patients, QObject *parent)
     : QAbstractTableModel(parent)
 {
     this->patients = patients;
+}
+
+PatientTableModel::PatientTableModel(QObject *parent)
+    : QAbstractTableModel(parent)
+{
+    this->patients = dbManager.GetAll_Patient();
 }
 
 QVariant PatientTableModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -56,13 +62,13 @@ QVariant PatientTableModel::data(const QModelIndex &index, int role) const
     switch(index.column())
     {
     case 0:
-        return QString::fromStdString(patients.at(index.row()).getNom());
+        return patients.at(index.row())->getNom();
     case 1:
-        return QString::fromStdString(patients.at(index.row()).getPrenom());
+        return patients.at(index.row())->getPrenom();
     case 2:
-        return "date";
+        return patients.at(index.row())->getDateConsultation();
     case 3:
-        return "identification";
+        return patients.at(index.row())->getId();
     case 4:
         return "modifier";
     case 5:
@@ -81,13 +87,13 @@ QVariant PatientTableModel::data(int row, int col) const
     switch(col)
     {
     case 0:
-        return QString::fromStdString(patients.at(row).getNom());
+        return patients.at(row)->getNom();
     case 1:
-        return QString::fromStdString(patients.at(row).getPrenom());
+        return patients.at(row)->getPrenom();
     case 2:
-        return "date";
+        return patients.at(row)->getDateConsultation();
     case 3:
-        return "identification";
+        return patients.at(row)->getId();
     case 4:
         return "modifier";
     case 5:
@@ -97,9 +103,9 @@ QVariant PatientTableModel::data(int row, int col) const
     return QVariant();
 }
 
-void PatientTableModel::addPetient(const Patient &patient)
+void PatientTableModel::update()
 {
-    patients.push_back(patient);
+    this->patients = dbManager.GetAll_Patient();
 
     QModelIndex topLeft = index(0, 0);
     QModelIndex bottomRight = index(rowCount() - 1, columnCount() - 1);

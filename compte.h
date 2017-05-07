@@ -1,15 +1,13 @@
 #ifndef COMPTE_H
 #define COMPTE_H
 
-#include <iostream>
-
-using namespace std;
+#include <QString>
 
 class Compte
 {
 public:
     Compte();
-    Compte(int id, int ressource, const string& login, const string& mdp);
+    Compte(int id, int ressource, const QString& login, const QString& mdp);
 
     int getId() const;
     void setId(int value);
@@ -17,17 +15,17 @@ public:
     int getRessource() const;
     void setRessource(int value);
 
-    string getLogin() const;
-    void setLogin(const string &value);
+    QString getLogin() const;
+    void setLogin(const QString &value);
 
-    string getMdp() const;
-    void setMdp(const string &value);
+    QString getMdp() const;
+    void setMdp(const QString &value);
 
 private:
     int id;
     int ressource;
-    string login;
-    string mdp;
+    QString login;
+    QString mdp;
 };
 
 #endif // COMPTE_H

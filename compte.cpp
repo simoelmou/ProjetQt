@@ -3,7 +3,7 @@
 Compte::Compte()
 {}
 
-Compte::Compte(int id, int ressource, const string& login, const string& mdp)
+Compte::Compte(int id, int ressource, const QString& login, const QString& mdp)
 {
     setId(id);
     setRessource(ressource);
@@ -23,30 +23,30 @@ void Compte::setId(int value)
 
 int Compte::getRessource() const
 {
-    return resource;
+    return ressource;
 }
 
 void Compte::setRessource(int value)
 {
-    resource = value;
+    ressource = value;
 }
 
-string Compte::getLogin() const
+QString Compte::getLogin() const
 {
     return login;
 }
 
-void Compte::setLogin(const string &value)
+void Compte::setLogin(const QString &value)
 {
     login = value;
 }
 
-string Compte::getMdp() const
+QString Compte::getMdp() const
 {
     return mdp;
 }
 
-void Compte::setMdp(const string &value)
+void Compte::setMdp(const QString &value)
 {
     mdp = value;
 }

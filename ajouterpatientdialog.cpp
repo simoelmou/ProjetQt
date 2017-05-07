@@ -27,7 +27,7 @@ void AjouterPatientDialog::on_ajouterPatientButton_clicked()
     QString ville = ui->villeEdit->text();
     QString tel = ui->telephoneEdit->text();
     QString code = ui->codePostalEdit->text();
-    QString date = ui->dateConsultationEdit->text();
+    QDate date = ui->dateConsultationEdit->date();
     QString duree = ui->dureeConsultationEdit->text();
     int priorite = 1;
     if(ui->priorite2Radio->isChecked())
@@ -48,9 +48,8 @@ void AjouterPatientDialog::on_ajouterPatientButton_clicked()
     }
     //TODO: take resources
     QString commentaires = ui->commentairesEdit->toPlainText();
-    Patient patient(nom.toStdString(), prenom.toStdString(), adresse.toStdString(),
-                    ville.toStdString(), commentaires.toStdString(),
-                    tel.toInt(), code.toInt(), duree.toInt(), priorite);
+    Patient patient(0, nom, prenom, adresse, ville, commentaires,
+                    tel.toInt(), code.toInt(), date, duree.toInt(), priorite);
     //TODO: insert patient in database
 
     accept();

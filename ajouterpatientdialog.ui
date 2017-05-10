@@ -133,7 +133,7 @@
     <string>Téléphone :</string>
    </property>
   </widget>
-  <widget class="QListView" name="resourcesListView">
+  <widget class="QListView" name="ressourcesListView">
    <property name="geometry">
     <rect>
      <x>170</x>

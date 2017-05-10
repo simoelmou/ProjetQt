@@ -1,16 +1,11 @@
 #include "c_init_bd.h"
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QDebug>
-#include <QFile>
 
 C_INIT_BD::C_INIT_BD()
 {
 
 }
 
-bool C_INIT_BD::Creation_BD(void)
+bool C_INIT_BD::Create_BD(void)
 {
     bool b_test;
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "connection-name");
@@ -100,7 +95,7 @@ bool C_INIT_BD::Creation_BD(void)
         }
 
         b_test=query.exec("INSERT INTO TCompte (Id, IdRessource, Login, MdP) VALUES "
-                          "(1, 1, 'Admin', 'Password')");
+                          "(1, 1, 'admin', 'password')");
         if(!b_test)
         {
             qDebug() << query.lastError().text();
@@ -187,4 +182,15 @@ bool C_INIT_BD::Creation_BD(void)
         qDebug() << "Erreur à création de la base !\n";
         return false;
     }
+}
+
+bool C_INIT_BD::Remove_BD()
+{
+    QSqlDatabase db = QSqlDatabase::database("connection-name");
+    db.close();
+    db.removeDatabase("QSQLITE");
+
+    if(QFile::exists("base_tmp.sqli"))
+        QFile::remove("base_tmp.sqli");
+    return !db.isOpen();
 }

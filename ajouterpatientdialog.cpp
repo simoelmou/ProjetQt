@@ -11,7 +11,7 @@ AjouterPatientDialog::AjouterPatientDialog(QWidget *parent) :
     QStringList resources;
     resources << "Simo" << "Elmou" << "Wayli";
     QStringListModel *model =new QStringListModel(resources, this);
-    ui->resourcesListView->setModel(model);
+    ui->ressourcesListView->setModel(model);
 }
 
 AjouterPatientDialog::~AjouterPatientDialog()
@@ -51,7 +51,8 @@ void AjouterPatientDialog::on_ajouterPatientButton_clicked()
     Patient patient(0, nom, prenom, adresse, ville, commentaires,
                     tel.toInt(), code.toInt(), date, duree.toInt(), priorite);
     //TODO: insert patient in database
-
+    DBManager manager;
+    manager.Insert_Patient(patient);
     accept();
 }
 

@@ -22,6 +22,8 @@ private:
 public:
     DBManager();
 
+    bool Is_Connected();
+
     bool Insert_Patient(const Patient &patient);
     bool Insert_Compte(const Compte &compte);
     bool Insert_Ressource(const Ressource &ressource);
@@ -33,6 +35,12 @@ public:
     Ressource *Find_Ressource(int id);
     Consultation *Find_Consultation(int id);
     Type *Find_Type(int id);
+    Type* Find();
+
+    QList<Patient *> FindByIdNomPrenomDateDebutDateFin_Patient(int identification, const QString& nom, const QString& prenom, const QDate& debut, const QDate& fin);
+    QList<Patient *> FindByIdNomPrenomDateDebut_Patient(int identification, const QString& nom, const QString& prenom, const QDate& debut);
+    QList<Patient *> FindByIdNomPrenomDateFin_Patient(int identification, const QString& nom, const QString& prenom, const QDate& fin);
+    QList<Patient *> FindByIdNomPrenom_Patient(int identification, const QString& nom, const QString& prenom);
 
     bool Delete_Patient(int id);
     bool Delete_Compte(int id);

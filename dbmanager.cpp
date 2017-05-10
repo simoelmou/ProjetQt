@@ -10,6 +10,11 @@ DBManager::DBManager()
     }
 }
 
+bool DBManager::Is_Connected()
+{
+    return db.isOpen();
+}
+
 bool DBManager::Insert_Patient(const Patient& patient)
 {
     bool success = false;
@@ -192,6 +197,142 @@ Type *DBManager::Find_Type(int id)
         type = new Type(id, label);
     }
     return type;
+}
+
+QList<Patient *> DBManager::FindByIdNomPrenomDateDebutDateFin_Patient(int identification, const QString &nom, const QString &prenom, const QDate& debut, const QDate& fin)
+{
+    QList<Patient*> patients;
+    QSqlQuery query(db);
+    query.prepare("SELECT Id, Nom, Prenom, Adresse, Ville, Commentaire, Tel, CP, "
+                      "DateConsultation, DureeConsultation, Priorite "
+                      "FROM TPatient WHERE Id=:id OR Nom=:nom OR Prenom=:prenom OR DateConsultation BETWEEN :dateDebut AND :dateFin");
+    query.bindValue(":id", identification);
+    query.bindValue(":nom", nom);
+    query.bindValue(":prenom", prenom);
+    query.bindValue(":dateDebut", debut);
+    query.bindValue(":dateFin", fin);
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            int Id = query.value(0).toInt();
+            QString nom = query.value(1).toString();
+            QString prenom = query.value(2).toString();
+            QString adresse = query.value(3).toString();
+            QString ville = query.value(4).toString();
+            QString commentaire = query.value(5).toString();
+            int cp = query.value(6).toInt();
+            int tel = query.value(7).toInt();
+            QDate date = query.value(8).toDate();
+            int duree = query.value(9).toInt();
+            int priorite = query.value(10).toInt();
+
+            Patient* patient = new Patient(Id, nom, prenom, adresse, ville, commentaire, tel, cp, date, duree, priorite);
+            patients.append(patient);
+        }
+    }
+    return patients;
+}
+
+QList<Patient *> DBManager::FindByIdNomPrenomDateDebut_Patient(int identification, const QString &nom, const QString &prenom, const QDate& debut)
+{
+    QList<Patient*> patients;
+    QSqlQuery query(db);
+    query.prepare("SELECT Id, Nom, Prenom, Adresse, Ville, Commentaire, Tel, CP, "
+                      "DateConsultation, DureeConsultation, Priorite "
+                      "FROM TPatient WHERE Id=:id OR Nom=:nom OR Prenom=:prenom OR DateConsultation >= :dateDebut");
+    query.bindValue(":id", identification);
+    query.bindValue(":nom", nom);
+    query.bindValue(":prenom", prenom);
+    query.bindValue(":dateDebut", debut);
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            int Id = query.value(0).toInt();
+            QString nom = query.value(1).toString();
+            QString prenom = query.value(2).toString();
+            QString adresse = query.value(3).toString();
+            QString ville = query.value(4).toString();
+            QString commentaire = query.value(5).toString();
+            int cp = query.value(6).toInt();
+            int tel = query.value(7).toInt();
+            QDate date = query.value(8).toDate();
+            int duree = query.value(9).toInt();
+            int priorite = query.value(10).toInt();
+
+            Patient* patient = new Patient(Id, nom, prenom, adresse, ville, commentaire, tel, cp, date, duree, priorite);
+            patients.append(patient);
+        }
+    }
+    return patients;
+}
+
+QList<Patient *> DBManager::FindByIdNomPrenomDateFin_Patient(int identification, const QString &nom, const QString &prenom, const QDate& fin)
+{
+    QList<Patient*> patients;
+    QSqlQuery query(db);
+    query.prepare("SELECT Id, Nom, Prenom, Adresse, Ville, Commentaire, Tel, CP, "
+                      "DateConsultation, DureeConsultation, Priorite "
+                      "FROM TPatient WHERE Id=:id OR Nom=:nom OR Prenom=:prenom OR DateConsultation <= :dateFin");
+    query.bindValue(":id", identification);
+    query.bindValue(":nom", nom);
+    query.bindValue(":prenom", prenom);
+    query.bindValue(":dateFin", fin);
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            int Id = query.value(0).toInt();
+            QString nom = query.value(1).toString();
+            QString prenom = query.value(2).toString();
+            QString adresse = query.value(3).toString();
+            QString ville = query.value(4).toString();
+            QString commentaire = query.value(5).toString();
+            int cp = query.value(6).toInt();
+            int tel = query.value(7).toInt();
+            QDate date = query.value(8).toDate();
+            int duree = query.value(9).toInt();
+            int priorite = query.value(10).toInt();
+
+            Patient* patient = new Patient(Id, nom, prenom, adresse, ville, commentaire, tel, cp, date, duree, priorite);
+            patients.append(patient);
+        }
+    }
+    return patients;
+}
+
+QList<Patient *> DBManager::FindByIdNomPrenom_Patient(int identification, const QString &nom, const QString &prenom)
+{
+    QList<Patient*> patients;
+    QSqlQuery query(db);
+    query.prepare("SELECT Id, Nom, Prenom, Adresse, Ville, Commentaire, Tel, CP, "
+                      "DateConsultation, DureeConsultation, Priorite "
+                      "FROM TPatient WHERE Id=:id OR Nom=:nom OR Prenom=:prenom");
+    query.bindValue(":id", identification);
+    query.bindValue(":nom", nom);
+    query.bindValue(":prenom", prenom);
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            int Id = query.value(0).toInt();
+            QString nom = query.value(1).toString();
+            QString prenom = query.value(2).toString();
+            QString adresse = query.value(3).toString();
+            QString ville = query.value(4).toString();
+            QString commentaire = query.value(5).toString();
+            int cp = query.value(6).toInt();
+            int tel = query.value(7).toInt();
+            QDate date = query.value(8).toDate();
+            int duree = query.value(9).toInt();
+            int priorite = query.value(10).toInt();
+
+            Patient* patient = new Patient(Id, nom, prenom, adresse, ville, commentaire, tel, cp, date, duree, priorite);
+            patients.append(patient);
+        }
+    }
+    return patients;
 }
 
 bool DBManager::Delete_Patient(int id)

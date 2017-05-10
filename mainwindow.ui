@@ -58,7 +58,7 @@
      <widget class="QLineEdit" name="prenomRechercherEdit">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>160</x>
         <y>10</y>
         <width>151</width>
         <height>20</height>
@@ -69,9 +69,12 @@
       </property>
      </widget>
      <widget class="QDateEdit" name="dateFinRechercherEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
-        <x>500</x>
+        <x>460</x>
         <y>10</y>
         <width>110</width>
         <height>22</height>
@@ -97,9 +100,9 @@
      <widget class="QLineEdit" name="numeroRechercherEdit">
       <property name="geometry">
        <rect>
-        <x>640</x>
+        <x>600</x>
         <y>10</y>
-        <width>101</width>
+        <width>141</width>
         <height>20</height>
        </rect>
       </property>
@@ -154,49 +157,10 @@
        <bool>true</bool>
       </attribute>
      </widget>
-     <widget class="QCheckBox" name="enableNomCheckBox">
-      <property name="geometry">
-       <rect>
-        <x>160</x>
-        <y>10</y>
-        <width>16</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="enablePrenomCheckBox">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>10</y>
-        <width>16</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
      <widget class="QCheckBox" name="enableDateFinCheckBox">
       <property name="geometry">
        <rect>
-        <x>620</x>
-        <y>10</y>
-        <width>16</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="enableNumeroCheckBox">
-      <property name="geometry">
-       <rect>
-        <x>750</x>
+        <x>580</x>
         <y>10</y>
         <width>16</width>
         <height>17</height>
@@ -207,9 +171,12 @@
       </property>
      </widget>
      <widget class="QDateEdit" name="dateDebutRechercherEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
-        <x>360</x>
+        <x>320</x>
         <y>10</y>
         <width>110</width>
         <height>22</height>
@@ -222,7 +189,7 @@
      <widget class="QCheckBox" name="enableDateDebutCheckBox">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>440</x>
         <y>10</y>
         <width>16</width>
         <height>17</height>
@@ -298,7 +265,7 @@
   </widget>
   <widget class="QStatusBar" name="statusBar">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>

@@ -4,6 +4,9 @@
 #include <QDialog>
 #include <QMessageBox>
 
+#include "dbmanager.h"
+
+
 namespace Ui {
 class LoginDialog;
 }

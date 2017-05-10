@@ -1,8 +1,5 @@
 #include "logindialog.h"
 #include "ui_logindialog.h"
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <iostream>
 
 LoginDialog::LoginDialog(QWidget *parent) : QDialog(parent), ui(new Ui::LoginDialog)
 {
@@ -35,5 +32,7 @@ void LoginDialog::on_annulerButton_clicked()
 
 bool LoginDialog::isVerified(QString username, QString password)
 {
-    return username == "simo" && password == "pass";
+    DBManager manager;
+
+    return manager.Login_Compte(username, password);
 }

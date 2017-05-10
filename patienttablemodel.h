@@ -3,7 +3,6 @@
 
 #include <QAbstractTableModel>
 #include "patient.h"
-#include "dbmanager.h"
 
 class PatientTableModel : public QAbstractTableModel
 {
@@ -24,11 +23,13 @@ public:
 
     QVariant data(int row, int col) const;
 
-    void update();
+    QList<Patient *> getPatients() const;
+    void setPatients(const QList<Patient *> &value);
 
 private:
-    DBManager dbManager;
     QList<Patient*> patients;
+
+    void update();
 };
 
 #endif // PATIENTTABLEMODEL_H

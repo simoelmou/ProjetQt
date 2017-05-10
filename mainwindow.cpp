@@ -1,26 +1,31 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "personneltreemodel.h"
-#include "c_init_bd.h"
-#include "dbmanager.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
 
-    //connection des bouttons de modification et suppression de patients dans table view
-    connect(ui->patientsTableView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(edit_cell_slot(const QModelIndex&)));
+    //Connection des bouttons de modification et suppression de patients dans table view
+    connect(ui->patientsTableView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(edit_delete_patient_slot(const QModelIndex&)));
 
-    C_INIT_BD::Creation_BD();
+    //Status bar
+    if(dbManager.Is_Connected())
+    {
+        register_message("Database is connected.");
+    }
+    else
+    {
+        register_message("Database is not connected.");
+    }
 
-    //Personnel tree view
+    //Initialization treeview model
     PersonnelTreeModel *treeModel = new PersonnelTreeModel(this);
     ui->personnelTreeView->setModel(treeModel);
 
-    //Populating patient table view
-    model = new PatientTableModel(this);
-    ui->patientsTableView->setModel(model);
+    //Initialization tableview model
+    patienTableModel = new PatientTableModel(dbManager.GetAll_Patient(), this);
+    ui->patientsTableView->setModel(patienTableModel);
 
 }
 
@@ -43,7 +48,14 @@ void MainWindow::on_actionA_propos_triggered()
 void MainWindow::on_actionPatient_triggered()
 {
     AjouterPatientDialog patient(this);
-    patient.exec();
+    if(patient.exec() == QDialog::Accepted)
+    {
+        //Set the new data
+        patienTableModel->setPatients(dbManager.GetAll_Patient());
+
+        //Notify the user
+        register_message("Patient est ajouté");
+    }
 }
 
 void MainWindow::on_actionPersonnel_triggered()
@@ -55,7 +67,14 @@ void MainWindow::on_actionPersonnel_triggered()
 void MainWindow::on_actionToolbarAjouter_patient_triggered()
 {
     AjouterPatientDialog patient(this);
-    patient.exec();
+    if(patient.exec() == QDialog::Accepted)
+    {
+        //Set the new data
+        patienTableModel->setPatients(dbManager.GetAll_Patient());
+
+        //Notify the user
+        register_message("Patient est ajouté");
+    }
 }
 
 void MainWindow::on_actionToolbarAjouter_personnel_de_soins_triggered()
@@ -68,30 +87,60 @@ void MainWindow::on_rechercherPatientButton_clicked()
 {
     QString nom = ui->nomRechercherEdit->text();
     QString prenom = ui->prenomRechercherEdit->text();
-    QString date = ui->dateDebutRechercherEdit->text();
     QString numeroId = ui->numeroRechercherEdit->text();
-    //TODO: Search for a patient in the database and repopulate the table model
+    QDate dateDebut = ui->dateDebutRechercherEdit->date();
+    QDate dateFin = ui->dateFinRechercherEdit->date();
+    if(nom.isEmpty() && prenom.isEmpty() && numeroId.isEmpty() &&
+            ui->enableDateDebutCheckBox->checkState() == Qt::Unchecked && ui->enableDateFinCheckBox->checkState() == Qt::Unchecked)
+    {
+        patienTableModel->setPatients(dbManager.GetAll_Patient());
+        return;
+    }
 
+    if(ui->enableDateDebutCheckBox->checkState() == Qt::Checked && ui->enableDateFinCheckBox->checkState()  == Qt::Checked)
+    {
+        patienTableModel->setPatients(dbManager.FindByIdNomPrenomDateDebutDateFin_Patient(numeroId.toInt(), nom, prenom, dateDebut, dateFin));
+    }
+    else if(ui->enableDateDebutCheckBox->checkState() == Qt::Checked)
+    {
+        patienTableModel->setPatients(dbManager.FindByIdNomPrenomDateDebut_Patient(numeroId.toInt(), nom, prenom, dateDebut));
+    }
+    else if(ui->enableDateFinCheckBox->checkState()  == Qt::Checked)
+    {
+        patienTableModel->setPatients(dbManager.FindByIdNomPrenomDateFin_Patient(numeroId.toInt(), nom, prenom, dateFin));
+    }
+    else
+    {
+        patienTableModel->setPatients(dbManager.FindByIdNomPrenom_Patient(numeroId.toInt(), nom, prenom));
+    }
 }
 
-void MainWindow::edit_cell_slot(const QModelIndex &index)
+void MainWindow::on_enableDateDebutCheckBox_toggled(bool checked)
+{
+    ui->dateDebutRechercherEdit->setEnabled(checked);
+}
+
+void MainWindow::on_enableDateFinCheckBox_toggled(bool checked)
+{
+    ui->dateFinRechercherEdit->setEnabled(checked);
+}
+
+void MainWindow::edit_delete_patient_slot(const QModelIndex &index)
 {
     switch(index.column())
     {
     case 4:
-        register_message("modifier " + model->data(index.row(), 0).toString());
+        register_message("modifier " + patienTableModel->data(index.row(), 0).toString());
         //TODO: modify this patient
         break;
     case 5:
-        register_message("supprimer " + model->data(index.row(), 0).toString());
+        register_message("supprimer " + patienTableModel->data(index.row(), 0).toString());
         //TODO: delete this patient
         break;
     }
 }
 
-void MainWindow::register_message(const QString message)
+void MainWindow::register_message(const QString message, int timeout)
 {
-    ui->statusBar->showMessage(message);
+    statusBar()->showMessage(message, timeout);
 }
-
-

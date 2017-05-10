@@ -10,7 +10,6 @@ PatientTableModel::PatientTableModel(const QList<Patient*>& patients, QObject *p
 PatientTableModel::PatientTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    this->patients = dbManager.GetAll_Patient();
 }
 
 QVariant PatientTableModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -105,10 +104,19 @@ QVariant PatientTableModel::data(int row, int col) const
 
 void PatientTableModel::update()
 {
-    this->patients = dbManager.GetAll_Patient();
-
     QModelIndex topLeft = index(0, 0);
     QModelIndex bottomRight = index(rowCount() - 1, columnCount() - 1);
     emit dataChanged(topLeft, bottomRight);
     emit layoutChanged();
+}
+
+QList<Patient *> PatientTableModel::getPatients() const
+{
+    return patients;
+}
+
+void PatientTableModel::setPatients(const QList<Patient *> &value)
+{
+    patients = value;
+    update();
 }

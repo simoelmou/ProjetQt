@@ -4,8 +4,8 @@
 #include <QDialog>
 #include <QStringListModel>
 
-#include "patient.h"
-#include "dbmanager.h"
+#include "model/patient.h"
+#include "data/dbmanager.h"
 
 namespace Ui {
 class AjouterPatientDialog;

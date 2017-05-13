@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "view/mainwindow.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -26,7 +26,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //Initialization tableview model
     patienTableModel = new PatientTableModel(dbManager.GetAll_Patient(), this);
     ui->patientsTableView->setModel(patienTableModel);
-
 }
 
 MainWindow::~MainWindow()
@@ -90,6 +89,7 @@ void MainWindow::on_rechercherPatientButton_clicked()
     QString numeroId = ui->numeroRechercherEdit->text();
     QDate dateDebut = ui->dateDebutRechercherEdit->date();
     QDate dateFin = ui->dateFinRechercherEdit->date();
+    //
     if(nom.isEmpty() && prenom.isEmpty() && numeroId.isEmpty() &&
             ui->enableDateDebutCheckBox->checkState() == Qt::Unchecked && ui->enableDateFinCheckBox->checkState() == Qt::Unchecked)
     {
@@ -101,10 +101,12 @@ void MainWindow::on_rechercherPatientButton_clicked()
     {
         patienTableModel->setPatients(dbManager.FindByIdNomPrenomDateDebutDateFin_Patient(numeroId.toInt(), nom, prenom, dateDebut, dateFin));
     }
+
     else if(ui->enableDateDebutCheckBox->checkState() == Qt::Checked)
     {
         patienTableModel->setPatients(dbManager.FindByIdNomPrenomDateDebut_Patient(numeroId.toInt(), nom, prenom, dateDebut));
     }
+
     else if(ui->enableDateFinCheckBox->checkState()  == Qt::Checked)
     {
         patienTableModel->setPatients(dbManager.FindByIdNomPrenomDateFin_Patient(numeroId.toInt(), nom, prenom, dateFin));

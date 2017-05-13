@@ -1,4 +1,4 @@
-#include "ressource.h"
+#include "model/ressource.h"
 
 Ressource::Ressource()
 {}

@@ -25,41 +25,41 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    logindialog.cpp \
-    ajouterpatientdialog.cpp \
-    ajoutpersonneldialog.cpp \
-    aboutdialog.cpp \
-    patient.cpp \
-    patienttablemodel.cpp \
-    personneltreemodel.cpp \
-    ressource.cpp \
-    compte.cpp \
-    consultation.cpp \
-    dbmanager.cpp \
-    c_init_bd.cpp \
-    type.cpp
+        view/mainwindow.cpp \
+        view/logindialog.cpp \
+        view/ajouterpatientdialog.cpp \
+        view/ajoutpersonneldialog.cpp \
+        view/aboutdialog.cpp \
+        model/patient.cpp \
+        model/patienttablemodel.cpp \
+        model/personneltreemodel.cpp \
+        model/ressource.cpp \
+        model/compte.cpp \
+        model/consultation.cpp \
+        data/dbmanager.cpp \
+        data/c_init_bd.cpp \
+        model/type.cpp
 
-HEADERS  += mainwindow.h \
-    logindialog.h \
-    ajouterpatientdialog.h \
-    ajoutpersonneldialog.h \
-    aboutdialog.h \
-    patient.h \
-    patienttablemodel.h \
-    personneltreemodel.h \
-    ressource.h \
-    compte.h \
-    consultation.h \
-    dbmanager.h \
-    c_init_bd.h \
-    type.h
+HEADERS  += view/mainwindow.h \
+        view/logindialog.h \
+        view/ajouterpatientdialog.h \
+        view/ajoutpersonneldialog.h \
+        view/aboutdialog.h \
+        model/patient.h \
+        model/patienttablemodel.h \
+        model/personneltreemodel.h \
+        model/ressource.h \
+        model/compte.h \
+        model/consultation.h \
+        data/dbmanager.h \
+        data/c_init_bd.h \
+        model/type.h
 
-FORMS    += mainwindow.ui \
-    logindialog.ui \
-    ajouterpatientdialog.ui \
-    ajoutpersonneldialog.ui \
-    aboutdialog.ui
+FORMS    += view/mainwindow.ui \
+        view/logindialog.ui \
+        view/ajouterpatientdialog.ui \
+        view/ajoutpersonneldialog.ui \
+        view/aboutdialog.ui
 
 RESOURCES += \
-    images.qrc
+        images.qrc

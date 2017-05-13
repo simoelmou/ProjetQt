@@ -2,7 +2,7 @@
 #define PATIENTTABLEMODEL_H
 
 #include <QAbstractTableModel>
-#include "patient.h"
+#include "model/patient.h"
 
 class PatientTableModel : public QAbstractTableModel
 {

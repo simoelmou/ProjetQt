@@ -1,4 +1,4 @@
-#include "compte.h"
+#include "model/compte.h"
 
 Compte::Compte()
 {}

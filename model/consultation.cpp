@@ -1,4 +1,4 @@
-#include "consultation.h"
+#include "model/consultation.h"
 
 Consultation::Consultation()
 {

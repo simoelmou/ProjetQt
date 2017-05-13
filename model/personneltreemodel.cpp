@@ -1,4 +1,4 @@
-#include "personneltreemodel.h"
+#include "model/personneltreemodel.h"
 
 PersonnelTreeModel::PersonnelTreeModel(QObject *parent)
     : QAbstractItemModel(parent)

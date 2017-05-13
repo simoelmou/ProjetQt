@@ -8,11 +8,11 @@
 #include <QDebug>
 #include <QSqlRecord>
 
-#include "patient.h"
-#include "compte.h"
-#include "ressource.h"
-#include "consultation.h"
-#include "type.h"
+#include "model/patient.h"
+#include "model/compte.h"
+#include "model/ressource.h"
+#include "model/consultation.h"
+#include "model/type.h"
 
 class DBManager
 {

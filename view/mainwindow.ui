@@ -291,7 +291,7 @@
   </action>
   <action name="actionToolbarAjouter_patient">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="../images.qrc">
      <normaloff>:/resources/img/patient-robe.png</normaloff>:/resources/img/patient-robe.png</iconset>
    </property>
    <property name="text">
@@ -300,7 +300,7 @@
   </action>
   <action name="actionToolbarAjouter_personnel_de_soins">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="../images.qrc">
      <normaloff>:/resources/img/stethoscope.png</normaloff>:/resources/img/stethoscope.png</iconset>
    </property>
    <property name="text">
@@ -315,7 +315,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="images.qrc"/>
+  <include location="../images.qrc"/>
  </resources>
  <connections/>
 </ui>

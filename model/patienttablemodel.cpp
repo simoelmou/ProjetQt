@@ -1,4 +1,4 @@
-#include "patienttablemodel.h"
+#include "model/patienttablemodel.h"
 #include <QPushButton>
 
 PatientTableModel::PatientTableModel(const QList<Patient*>& patients, QObject *parent)

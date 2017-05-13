@@ -1,4 +1,4 @@
-#include "dbmanager.h"
+#include "data/dbmanager.h"
 
 DBManager::DBManager()
 {

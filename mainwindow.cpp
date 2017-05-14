@@ -1,5 +1,7 @@
-#include "view/mainwindow.h"
+#include "mainwindow.h"
 #include "ui_mainwindow.h"
+
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -132,12 +134,27 @@ void MainWindow::edit_delete_patient_slot(const QModelIndex &index)
     switch(index.column())
     {
     case 4:
-        register_message("modifier " + patienTableModel->data(index.row(), 0).toString());
-        //TODO: modify this patient
+        {
+            register_message("modifier " + patienTableModel->data(index.row(), 0).toString());
+            Patient* currentPatient = patienTableModel->getPatients().at(index.row());
+            AjouterPatientDialog dialog(currentPatient);
+            if(dialog.exec() == QDialog::Accepted)
+            {
+                patienTableModel->setPatients(dbManager.GetAll_Patient());
+
+                //Notify the user
+                register_message("Patient est modifié");
+            }
+        }
         break;
     case 5:
-        register_message("supprimer " + patienTableModel->data(index.row(), 0).toString());
-        //TODO: delete this patient
+        {
+            QString nom = patienTableModel->data(index.row(), 0).toString();
+            int idPatient = patienTableModel->getPatients().at(index.row())->getId();
+            dbManager.Delete_Patient(idPatient);
+            patienTableModel->setPatients(dbManager.GetAll_Patient());
+            register_message(nom + " est supprimé");
+        }
         break;
     }
 }

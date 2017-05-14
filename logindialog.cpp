@@ -1,4 +1,4 @@
-#include "view/logindialog.h"
+#include "logindialog.h"
 #include "ui_logindialog.h"
 
 LoginDialog::LoginDialog(QWidget *parent) : QDialog(parent), ui(new Ui::LoginDialog)
@@ -14,7 +14,7 @@ LoginDialog::~LoginDialog()
 
 void LoginDialog::on_connectButton_clicked()
 {
-    QString title = "SimoElmou";
+    QString title = "Login";
     QString usernameString = ui->usernameEdit->text();
     QString passwordString = ui->passwordEdit->text();
     if(isVerified(usernameString, passwordString)){

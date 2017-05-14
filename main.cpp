@@ -1,6 +1,6 @@
-#include "view/mainwindow.h"
-#include "view/logindialog.h"
-#include "data/c_init_bd.h"
+#include "mainwindow.h"
+#include "logindialog.h"
+#include "c_init_bd.h"
 #include <QApplication>
 #include <iostream>
 

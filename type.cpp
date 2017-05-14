@@ -1,4 +1,4 @@
-#include "model/type.h"
+#include "type.h"
 
 int Type::getId() const
 {

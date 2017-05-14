@@ -1,4 +1,4 @@
-#include "model/patient.h"
+#include "patient.h"
 
 QString Patient::getNom() const
 {

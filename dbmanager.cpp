@@ -1,4 +1,4 @@
-#include "data/dbmanager.h"
+#include "dbmanager.h"
 
 DBManager::DBManager()
 {
@@ -15,10 +15,8 @@ bool DBManager::Is_Connected()
     return db.isOpen();
 }
 
-bool DBManager::Insert_Patient(const Patient& patient)
+int DBManager::Insert_Patient(const Patient& patient)
 {
-    bool success = false;
-    // you should check if args are ok first...
     QSqlQuery query(db);
     query.prepare("INSERT INTO TPatient (Nom, Prenom, Adresse, Ville, CP, Commentaire, Tel, DateConsultation, DureeConsultation, Priorite) VALUES (:nom, :prenom, :adresse, :ville, :cp, :commentaire, :tel, :date, :duree, :prio)");
     query.bindValue(":nom", patient.getNom());
@@ -31,12 +29,16 @@ bool DBManager::Insert_Patient(const Patient& patient)
     query.bindValue(":date", patient.getDateConsultation());
     query.bindValue(":duree", patient.getDureeConsultation());
     query.bindValue(":prio", patient.getPriorite());
-    success = query.exec();
-    if(!success)
+    int lastId = -1;
+    if(!query.exec())
     {
         qDebug() << "Insert_Patient error : " << query.lastError();
     }
-    return success;
+    else
+    {
+        lastId = query.lastInsertId().toInt();
+    }
+    return lastId;
 }
 
 bool DBManager::Insert_Compte(const Compte &compte)
@@ -205,10 +207,19 @@ QList<Patient *> DBManager::FindByIdNomPrenomDateDebutDateFin_Patient(int identi
     QSqlQuery query(db);
     query.prepare("SELECT Id, Nom, Prenom, Adresse, Ville, Commentaire, Tel, CP, "
                       "DateConsultation, DureeConsultation, Priorite "
-                      "FROM TPatient WHERE Id=:id OR Nom=:nom OR Prenom=:prenom OR DateConsultation BETWEEN :dateDebut AND :dateFin");
+                      "FROM TPatient WHERE Id=:id OR Nom LIKE :nom OR Prenom LIKE :prenom OR DateConsultation BETWEEN :dateDebut AND :dateFin");
+    QString newNom = "";
+    QString newPrenom = "";
+    if(!nom.isEmpty())
+    {
+        newNom = nom + '%';
+    }if(!prenom.isEmpty())
+    {
+        newPrenom = prenom + '%';
+    }
     query.bindValue(":id", identification);
-    query.bindValue(":nom", nom);
-    query.bindValue(":prenom", prenom);
+    query.bindValue(":nom", newNom);
+    query.bindValue(":prenom", newPrenom);
     query.bindValue(":dateDebut", debut);
     query.bindValue(":dateFin", fin);
     if(query.exec())
@@ -240,10 +251,19 @@ QList<Patient *> DBManager::FindByIdNomPrenomDateDebut_Patient(int identificatio
     QSqlQuery query(db);
     query.prepare("SELECT Id, Nom, Prenom, Adresse, Ville, Commentaire, Tel, CP, "
                       "DateConsultation, DureeConsultation, Priorite "
-                      "FROM TPatient WHERE Id=:id OR Nom=:nom OR Prenom=:prenom OR DateConsultation >= :dateDebut");
+                      "FROM TPatient WHERE Id=:id OR Nom LIKE :nom OR Prenom LIKE :prenom OR DateConsultation >= :dateDebut");
+    QString newNom = "";
+    QString newPrenom = "";
+    if(!nom.isEmpty())
+    {
+        newNom = nom + '%';
+    }if(!prenom.isEmpty())
+    {
+        newPrenom = prenom + '%';
+    }
     query.bindValue(":id", identification);
-    query.bindValue(":nom", nom);
-    query.bindValue(":prenom", prenom);
+    query.bindValue(":nom", newNom);
+    query.bindValue(":prenom", newPrenom);
     query.bindValue(":dateDebut", debut);
     if(query.exec())
     {
@@ -274,10 +294,19 @@ QList<Patient *> DBManager::FindByIdNomPrenomDateFin_Patient(int identification,
     QSqlQuery query(db);
     query.prepare("SELECT Id, Nom, Prenom, Adresse, Ville, Commentaire, Tel, CP, "
                       "DateConsultation, DureeConsultation, Priorite "
-                      "FROM TPatient WHERE Id=:id OR Nom=:nom OR Prenom=:prenom OR DateConsultation <= :dateFin");
+                      "FROM TPatient WHERE Id=:id OR Nom LIKE :nom OR Prenom LIKE :prenom OR DateConsultation <= :dateFin");
+    QString newNom = "";
+    QString newPrenom = "";
+    if(!nom.isEmpty())
+    {
+        newNom = nom + '%';
+    }if(!prenom.isEmpty())
+    {
+        newPrenom = prenom + '%';
+    }
     query.bindValue(":id", identification);
-    query.bindValue(":nom", nom);
-    query.bindValue(":prenom", prenom);
+    query.bindValue(":nom", newNom);
+    query.bindValue(":prenom", newPrenom);
     query.bindValue(":dateFin", fin);
     if(query.exec())
     {
@@ -308,10 +337,19 @@ QList<Patient *> DBManager::FindByIdNomPrenom_Patient(int identification, const 
     QSqlQuery query(db);
     query.prepare("SELECT Id, Nom, Prenom, Adresse, Ville, Commentaire, Tel, CP, "
                       "DateConsultation, DureeConsultation, Priorite "
-                      "FROM TPatient WHERE Id=:id OR Nom=:nom OR Prenom=:prenom");
+                      "FROM TPatient WHERE Id=:id OR Nom LIKE :nom  OR Prenom LIKE :prenom");
+    QString newNom = "";
+    QString newPrenom = "";
+    if(!nom.isEmpty())
+    {
+        newNom = nom + '%';
+    }if(!prenom.isEmpty())
+    {
+        newPrenom = prenom + '%';
+    }
     query.bindValue(":id", identification);
-    query.bindValue(":nom", nom);
-    query.bindValue(":prenom", prenom);
+    query.bindValue(":nom", newNom);
+    query.bindValue(":prenom", newPrenom);
     if(query.exec())
     {
         while(query.next())
@@ -368,6 +406,15 @@ bool DBManager::Delete_Consultation(int id)
     query.prepare("DELETE FROM TConsult "
                   "WHERE Id = :idO");
     query.bindValue(":idO", id);
+    return query.exec();
+}
+
+bool DBManager::Delete_ConsultationPatient(int idPatient)
+{
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM TConsult "
+                  "WHERE IdPatient = :idO");
+    query.bindValue(":idO", idPatient);
     return query.exec();
 }
 
@@ -484,6 +531,32 @@ QList<Type *> DBManager::GetAll_Type()
         }
     }
     return types;
+}
+
+bool DBManager::Update_Patient(const Patient &patient)
+{
+    bool success;
+    QSqlQuery query(db);
+    query.prepare("UPDATE TPatient SET Nom=:nom, Prenom=:prenom, Adresse=:adresse, Ville=:ville, CP=:cp, Commentaire=:commentaire, "
+                  "Tel=:tel, DateConsultation=:date, DureeConsultation=:duree, Priorite=:prio "
+                  "WHERE Id=:idPatient");
+    query.bindValue(":idPatient", patient.getId());
+    query.bindValue(":nom", patient.getNom());
+    query.bindValue(":prenom", patient.getPrenom());
+    query.bindValue(":adresse", patient.getAdresse());
+    query.bindValue(":ville", patient.getVille());
+    query.bindValue(":cp", patient.getCodePostal());
+    query.bindValue(":commentaire", patient.getCommentaires());
+    query.bindValue(":tel", patient.getTelephone());
+    query.bindValue(":date", patient.getDateConsultation());
+    query.bindValue(":duree", patient.getDureeConsultation());
+    query.bindValue(":prio", patient.getPriorite());
+    success = query.exec();
+    if(!success)
+    {
+        qDebug() << "Update_Patient error : " << query.lastError();
+    }
+    return success;
 }
 
 bool DBManager::Login_Compte(QString login, QString mdp)

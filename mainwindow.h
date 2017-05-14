@@ -5,11 +5,11 @@
 
 #include "aboutdialog.h"
 #include "ajouterpatientdialog.h"
-#include "model/patienttablemodel.h"
+#include "patienttablemodel.h"
 #include "ajoutpersonneldialog.h"
-#include "model/personneltreemodel.h"
-#include "data/c_init_bd.h"
-#include "data/dbmanager.h"
+#include "personneltreemodel.h"
+#include "c_init_bd.h"
+#include "dbmanager.h"
 
 namespace Ui {
 class MainWindow;

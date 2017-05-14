@@ -8,11 +8,11 @@
 #include <QDebug>
 #include <QSqlRecord>
 
-#include "model/patient.h"
-#include "model/compte.h"
-#include "model/ressource.h"
-#include "model/consultation.h"
-#include "model/type.h"
+#include "patient.h"
+#include "compte.h"
+#include "ressource.h"
+#include "consultation.h"
+#include "type.h"
 
 class DBManager
 {
@@ -24,7 +24,7 @@ public:
 
     bool Is_Connected();
 
-    bool Insert_Patient(const Patient &patient);
+    int Insert_Patient(const Patient &patient);
     bool Insert_Compte(const Compte &compte);
     bool Insert_Ressource(const Ressource &ressource);
     bool Insert_Consultation(const Consultation &consultation);
@@ -46,6 +46,7 @@ public:
     bool Delete_Compte(int id);
     bool Delete_Ressource(int id);
     bool Delete_Consultation(int id);
+    bool Delete_ConsultationPatient(int idPatient);
     bool Delete_Type(int id);
 
     QList<Patient *> GetAll_Patient();
@@ -53,6 +54,8 @@ public:
     QList<Ressource *> GetAll_Ressource();
     QList<Consultation *> GetAll_Consultation();
     QList<Type *> GetAll_Type();
+
+    bool Update_Patient(const Patient &patient);
 
     bool Login_Compte(QString login, QString mdp);
 

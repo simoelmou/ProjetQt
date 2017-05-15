@@ -1,9 +1,20 @@
 #include "personneltreemodel.h"
 
+#include <QStringList>
+#include <iostream>
+
+PersonnelTreeModel::PersonnelTreeModel(QList<Ressource *> ressources, QObject *parent)
+    : QAbstractItemModel(parent)
+{
+    rootItem = new RessourceTreeItem("");
+    this->ressources= ressources;
+    setupModelData();
+}
+
 PersonnelTreeModel::PersonnelTreeModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-    rootItem = new QStandardItem("Personnel de soins");
+    rootItem = new RessourceTreeItem("");
     setupModelData();
 }
 
@@ -15,28 +26,27 @@ PersonnelTreeModel::~PersonnelTreeModel()
 QVariant PersonnelTreeModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
-            return QVariant();
+        return QVariant();
 
     if (role != Qt::DisplayRole)
-            return QVariant();
+        return QVariant();
 
-    QStandardItem *item = static_cast<QStandardItem*>(index.internalPointer());
-    return item->data(index.column());
+    RessourceTreeItem *item = static_cast<RessourceTreeItem *>(index.internalPointer());
+    return item->data();
 }
 
 Qt::ItemFlags PersonnelTreeModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
-            return 0;
+        return 0;
 
     return QAbstractItemModel::flags(index);
 }
 
-QVariant PersonnelTreeModel::headerData(int section, Qt::Orientation orientation,
-                               int role) const
+QVariant PersonnelTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return rootItem->data(section);
+        return rootItem->data();
 
     return QVariant();
 }
@@ -46,14 +56,14 @@ QModelIndex PersonnelTreeModel::index(int row, int column, const QModelIndex &pa
     if (!hasIndex(row, column, parent))
             return QModelIndex();
 
-    QStandardItem *parentItem;
+    RessourceTreeItem *parentItem;
 
     if (!parent.isValid())
         parentItem = rootItem;
     else
-        parentItem = static_cast<QStandardItem*>(parent.internalPointer());
+        parentItem = static_cast<RessourceTreeItem*>(parent.internalPointer());
 
-    QStandardItem *childItem = parentItem->child(row);
+    RessourceTreeItem *childItem = parentItem->child(row);
     if (childItem)
         return createIndex(row, column, childItem);
     else
@@ -63,10 +73,10 @@ QModelIndex PersonnelTreeModel::index(int row, int column, const QModelIndex &pa
 QModelIndex PersonnelTreeModel::parent(const QModelIndex &index) const
 {
     if (!index.isValid())
-            return QModelIndex();
+        return QModelIndex();
 
-    QStandardItem *childItem = static_cast<QStandardItem*>(index.internalPointer());
-    QStandardItem *parentItem = childItem->parent();
+    RessourceTreeItem *childItem = static_cast<RessourceTreeItem*>(index.internalPointer());
+    RessourceTreeItem *parentItem = childItem->parentItem();
 
     if (parentItem == rootItem)
         return QModelIndex();
@@ -76,39 +86,109 @@ QModelIndex PersonnelTreeModel::parent(const QModelIndex &index) const
 
 int PersonnelTreeModel::rowCount(const QModelIndex &parent) const
 {
-    QStandardItem *parentItem;
+    RessourceTreeItem *parentItem;
     if (parent.column() > 0)
         return 0;
 
     if (!parent.isValid())
         parentItem = rootItem;
     else
-        parentItem = static_cast<QStandardItem*>(parent.internalPointer());
+        parentItem = static_cast<RessourceTreeItem*>(parent.internalPointer());
 
-    return parentItem->rowCount();
+    return parentItem->childCount();
 }
 
 int PersonnelTreeModel::columnCount(const QModelIndex &parent) const
 {
-    if (parent.isValid())
-            return static_cast<QStandardItem*>(parent.internalPointer())->columnCount();
-        else
-            return rootItem->columnCount();
+    return 1;
 }
 
 void PersonnelTreeModel::setupModelData()
 {
-    QStandardItem *typesItem = new QStandardItem("Types");
-    QStandardItem *nomsItem = new QStandardItem("Noms");
+    RessourceTreeItem *typesItem = new RessourceTreeItem("Types");
+    RessourceTreeItem *nomsItem = new RessourceTreeItem("Noms");
 
-    typesItem->appendRow(new QStandardItem("Medecin A"));
-    typesItem->appendRow(new QStandardItem("Medecin B"));
-    typesItem->appendRow(new QStandardItem("Radiologue"));
-    typesItem->appendRow(new QStandardItem("Infirmière"));
-    typesItem->appendRow(new QStandardItem("Kinésithérapeute"));
-    typesItem->appendRow(new QStandardItem("Psychologue"));
-    typesItem->appendRow(new QStandardItem("Informaticien"));
+    RessourceTreeItem *medecinAItem = new RessourceTreeItem("Medecin A");
+    typesItem->appendChild(medecinAItem);
 
-    rootItem->appendRow(typesItem);
-    rootItem->appendRow(nomsItem);
+    RessourceTreeItem *medecinBItem = new RessourceTreeItem("Medecin B");
+    typesItem->appendChild(medecinBItem);
+
+    RessourceTreeItem *radioItem = new RessourceTreeItem("Radiologue");
+    typesItem->appendChild(radioItem);
+
+    RessourceTreeItem *infirmiereItem = new RessourceTreeItem("Infirmière");
+    typesItem->appendChild(infirmiereItem);
+
+    RessourceTreeItem *kineItem = new RessourceTreeItem("Kinésithérapeute");
+    typesItem->appendChild(kineItem);
+
+    RessourceTreeItem *psychItem = new RessourceTreeItem("Psychologue");
+    typesItem->appendChild(psychItem);
+
+    RessourceTreeItem *infoItem = new RessourceTreeItem("Informaticien");
+    typesItem->appendChild(infoItem);
+
+    foreach (Ressource* ressource, this->ressources) {
+        nomsItem->appendChild(new RessourceTreeItem(ressource));
+        switch(ressource->getType())
+        {
+        case 1:
+            medecinAItem->appendChild(new RessourceTreeItem(ressource));
+            break;
+        case 2:
+            medecinBItem->appendChild(new RessourceTreeItem(ressource));
+            break;
+        case 3:
+            radioItem->appendChild(new RessourceTreeItem(ressource));
+            break;
+        case 4:
+            infirmiereItem->appendChild(new RessourceTreeItem(ressource));
+            break;
+        case 5:
+            kineItem->appendChild(new RessourceTreeItem(ressource));
+            break;
+        case 6:
+            psychItem->appendChild(new RessourceTreeItem(ressource));
+            break;
+        case 7:
+            infoItem->appendChild(new RessourceTreeItem(ressource));
+            break;
+        }
+    }
+
+    rootItem->appendChild(typesItem);
+    rootItem->appendChild(nomsItem);
+}
+
+void PersonnelTreeModel::update()
+{
+    QModelIndex topLeft = index(0, 0);
+    QModelIndex bottomRight = index(rowCount() - 1, columnCount() - 1);
+    emit dataChanged(topLeft, bottomRight);
+    emit layoutChanged();
+}
+
+QList<Ressource *> PersonnelTreeModel::getRessources() const
+{
+    return ressources;
+}
+
+void PersonnelTreeModel::setRessources(const QList<Ressource *> &value)
+{
+    ressources = value;
+    delete rootItem;
+    rootItem = new RessourceTreeItem("");
+
+    setupModelData();
+    update();
+}
+
+Ressource *PersonnelTreeModel::getRessource(const QModelIndex &index)
+{
+    if (!index.isValid())
+        return NULL;
+
+    RessourceTreeItem *item = static_cast<RessourceTreeItem *>(index.internalPointer());
+    return item->getRessource();
 }

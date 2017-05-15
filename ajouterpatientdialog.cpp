@@ -7,10 +7,13 @@ AjouterPatientDialog::AjouterPatientDialog(Patient *patient, QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //Patient to be updated
     this->currentPatient = patient;
     toUpdate = true;
+    //Fill the fields
     init();
 
+    //initialize the list view model
     ressourceListModel = new RessourceListModel(dbManager.GetAll_Ressource(), this);
     ui->ressourcesListView->setModel(ressourceListModel);
 }
@@ -22,6 +25,8 @@ AjouterPatientDialog::AjouterPatientDialog(QWidget *parent) :
     ui->setupUi(this);
 
     toUpdate = false;
+
+    //initialize the list view model
     ressourceListModel = new RessourceListModel(dbManager.GetAll_Ressource(), this);
     ui->ressourcesListView->setModel(ressourceListModel);
 }
@@ -61,16 +66,18 @@ void AjouterPatientDialog::on_ajouterPatientButton_clicked()
     //Si les données sont valides
     if(isDataValid(nom, prenom, adresse, ville, code, date, duree, ressources))
     {
+        //Patient
         Patient patient(0, nom, prenom, adresse, ville, commentaires,
                         tel.toInt(), code.toInt(), date, duree.toInt(), priorite);
 
         int idPatient;
+        //Si l'utilisateur a demandé que le patient soit modifié
         if(toUpdate)
         {
             idPatient = this->currentPatient->getId();
             patient.setId(idPatient);
             //Supprimer les consultations
-            dbManager.Delete_ConsultationPatient(idPatient);
+            dbManager.Delete_ConsultationByPatient(idPatient);
             //Modifier patient
             dbManager.Update_Patient(patient);
         }
@@ -103,6 +110,7 @@ void AjouterPatientDialog::init()
 {
     if(toUpdate)
     {
+        //Fill the fields with the current patient data
         ui->nomEdit->setText(this->currentPatient->getNom());
         ui->prenomEdit->setText(this->currentPatient->getPrenom());
         ui->adresseEdit->setText(this->currentPatient->getAdresse());

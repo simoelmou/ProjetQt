@@ -58,21 +58,23 @@ bool DBManager::Insert_Compte(const Compte &compte)
     return success;
 }
 
-bool DBManager::Insert_Ressource(const Ressource &ressource)
+int DBManager::Insert_Ressource(const Ressource &ressource)
 {
-    bool success = false;
-//     you should check if args are ok first...
     QSqlQuery query(db);
     query.prepare("INSERT INTO TRessource (Nom, Prenom, IdType) VALUES (:nom, :prenom, :type)");
     query.bindValue(":nom", ressource.getNom());
     query.bindValue(":prenom", ressource.getPrenom());
     query.bindValue(":type", ressource.getType());
-    success = query.exec();
-    if(!success)
+    int lastId = -1;
+    if(!query.exec())
     {
         qDebug() << "Insert_Ressource error : " << query.lastError();
     }
-    return success;
+    else
+    {
+        lastId = query.lastInsertId().toInt();
+    }
+    return lastId;
 }
 
 bool DBManager::Insert_Consultation(const Consultation &consultation)
@@ -132,20 +134,21 @@ Patient* DBManager::Find_Patient(int id)
     return patient;
 }
 
-Compte* DBManager::Find_Compte(int id)
+Compte* DBManager::Find_CompteByRessource(int idRessource)
 {
     QSqlQuery query(db);
-    query.prepare("SELECT IdRessource, Login, MdP "
-                  "FROM TCompte WHERE Id = :idCompte");
-    query.bindValue(":idCompte", id);
+    query.prepare("SELECT Id, IdRessource, Login, MdP "
+                  "FROM TCompte WHERE IdRessource = :idRessource");
+    query.bindValue(":idRessource", idRessource);
     Compte* compte = NULL;
     if(query.exec() && query.next())
     {
-        int IdRessource = query.value(0).toInt();
-        QString Login = query.value(1).toString();
-        QString MdP = query.value(2).toString();
+        int Id = query.value(0).toInt();
+        int IdRessource = query.value(1).toInt();
+        QString Login = query.value(2).toString();
+        QString MdP = query.value(3).toString();
 
-        compte = new Compte(id, IdRessource, Login, MdP);
+        compte = new Compte(Id, IdRessource, Login, MdP);
     }
     return compte;
 }
@@ -195,6 +198,24 @@ Type *DBManager::Find_Type(int id)
     if(query.exec() && query.next())
     {
         QString label = query.value(0).toString();
+
+        type = new Type(id, label);
+    }
+    return type;
+}
+
+Type *DBManager::Find_Type(const QString &label)
+{
+    QSqlQuery query(db);
+    query.prepare("SELECT Id, Label "
+                  "FROM TType WHERE Label = :label");
+    query.bindValue(":label", label);
+    Type* type = NULL;
+    if(query.exec() && query.next())
+    {
+
+        int id = query.value(0).toInt();
+        QString label = query.value(1).toString();
 
         type = new Type(id, label);
     }
@@ -391,6 +412,15 @@ bool DBManager::Delete_Compte(int id)
     return query.exec();
 }
 
+bool DBManager::Delete_CompteByRessource(int idRessource)
+{
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM TCompte "
+                  "WHERE IdRessource = :idO");
+    query.bindValue(":idO", idRessource);
+    return query.exec();
+}
+
 bool DBManager::Delete_Ressource(int id)
 {
     QSqlQuery query(db);
@@ -409,7 +439,7 @@ bool DBManager::Delete_Consultation(int id)
     return query.exec();
 }
 
-bool DBManager::Delete_ConsultationPatient(int idPatient)
+bool DBManager::Delete_ConsultationByPatient(int idPatient)
 {
     QSqlQuery query(db);
     query.prepare("DELETE FROM TConsult "
@@ -555,6 +585,23 @@ bool DBManager::Update_Patient(const Patient &patient)
     if(!success)
     {
         qDebug() << "Update_Patient error : " << query.lastError();
+    }
+    return success;
+}
+
+bool DBManager::Update_Ressource(const Ressource &ressource)
+{
+    bool success;
+    QSqlQuery query(db);
+    query.prepare("UPDATE TRessource SET Nom=:nom, Prenom=:prenom, IdType=:type WHERE Id=:id");
+    query.bindValue(":nom", ressource.getNom());
+    query.bindValue(":prenom", ressource.getPrenom());
+    query.bindValue(":type", ressource.getType());
+    query.bindValue(":id", ressource.getId());
+    success = query.exec();
+    if(!success)
+    {
+        qDebug() << "Update_Ressource error : " << query.lastError();
     }
     return success;
 }

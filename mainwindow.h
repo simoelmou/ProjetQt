@@ -35,11 +35,15 @@ private slots:
     void on_rechercherPatientButton_clicked();
     void on_enableDateDebutCheckBox_toggled(bool checked);
     void on_enableDateFinCheckBox_toggled(bool checked);
+    void on_modifierRessourceButton_clicked();
+    void on_supprimerRessourceButton_clicked();
+    void on_planifierButton_clicked();
     void edit_delete_patient_slot(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;
     PatientTableModel *patienTableModel;
+    PersonnelTreeModel *personnelTreeModel;
     DBManager dbManager;
 };
 

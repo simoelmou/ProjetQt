@@ -36,7 +36,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -202,7 +202,7 @@
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
-      <string>Planification</string>
+      <string>Personnel et Planification</string>
      </attribute>
      <widget class="QTreeView" name="personnelTreeView">
       <property name="geometry">
@@ -212,6 +212,55 @@
         <width>371</width>
         <height>361</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="modifierRessourceButton">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>380</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modifier</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="supprimerRessourceButton">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>380</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer</string>
+      </property>
+     </widget>
+     <widget class="QDateEdit" name="datePlanification">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>110</y>
+        <width>241</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="planifierButton">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>170</y>
+        <width>131</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Planifier</string>
       </property>
      </widget>
     </widget>
@@ -291,7 +340,7 @@
   </action>
   <action name="actionToolbarAjouter_patient">
    <property name="icon">
-    <iconset resource="../images.qrc">
+    <iconset resource="images.qrc">
      <normaloff>:/resources/img/patient-robe.png</normaloff>:/resources/img/patient-robe.png</iconset>
    </property>
    <property name="text">
@@ -300,7 +349,7 @@
   </action>
   <action name="actionToolbarAjouter_personnel_de_soins">
    <property name="icon">
-    <iconset resource="../images.qrc">
+    <iconset resource="images.qrc">
      <normaloff>:/resources/img/stethoscope.png</normaloff>:/resources/img/stethoscope.png</iconset>
    </property>
    <property name="text">
@@ -315,7 +364,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="../images.qrc"/>
+  <include location="images.qrc"/>
  </resources>
  <connections/>
 </ui>

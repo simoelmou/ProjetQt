@@ -12,8 +12,10 @@ class C_INIT_BD
 public:
     C_INIT_BD();
 
+    //Creates the database
     static bool Create_BD(void);
 
+    //Removes the database
     static bool Remove_BD(void);
 };
 

@@ -23,7 +23,10 @@ public:
     ~AjouterPatientDialog();
 
 private slots:
+    //Slot for the button ajouter patient
     void on_ajouterPatientButton_clicked();
+
+    //Slot for the button annuler
     void on_annulerButton_clicked();
 
 private:
@@ -33,8 +36,13 @@ private:
     Patient *currentPatient;
     DBManager dbManager;
 
+    //Initialize the fields with patient data
     void init();
+
+    //Returns the selected priority by the user
     int getSelectedPriority();
+
+    //Returns if the data presented by the user is valid or not
     bool isDataValid(const QString& nom, const QString& prenom, const QString& adresse, const QString& ville,
                        const QString& cp, const QDate& dateConsul, const QString& dureeConsul, QList<int> ressources);
 };

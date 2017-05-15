@@ -39,7 +39,8 @@ SOURCES += main.cpp\
         dbmanager.cpp \
         c_init_bd.cpp \
         type.cpp \
-    ressourcelistmodel.cpp
+    ressourcelistmodel.cpp \
+    ressourcetreeitem.cpp
 
 HEADERS  += mainwindow.h \
         logindialog.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
         dbmanager.h \
         c_init_bd.h \
         type.h \
-    ressourcelistmodel.h
+    ressourcelistmodel.h \
+    ressourcetreeitem.h
 
 FORMS    += mainwindow.ui \
         logindialog.ui \

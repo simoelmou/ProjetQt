@@ -30,9 +30,9 @@ void LoginDialog::on_annulerButton_clicked()
     reject();
 }
 
+//User can login or not
 bool LoginDialog::isVerified(QString username, QString password)
 {
     DBManager manager;
-
     return manager.Login_Compte(username, password);
 }
